@@ -8,11 +8,11 @@ ARG LC_ALL=C.UTF-8
 
 ADD snippets/sources.list /etc/apt/sources.list
 
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update
+RUN apt-get install -y tzdata
 ENV tz Asia/Shanghai
 RUN cp /usr/share/zoneinfo/$tz /etc/localtime && echo $tz | tee /etc/timezone
 
-RUN apt-get update
 RUN apt-get install -y \
 software-properties-common \
 build-essential \
