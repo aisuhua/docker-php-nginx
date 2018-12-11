@@ -78,6 +78,8 @@ RUN apt-get install -y supervisor
 
 RUN mkdir -p /run/php
 RUN sed -i "s/listen = .*/listen = 127.0.0.1:9000/" /etc/php/7.2/fpm/pool.d/www.conf
+RUN sed -i "s/;pm.status_path = .*/pm.status_path = \/phpfpm_status/" /etc/php/7.2/fpm/pool.d/www.conf
+
 RUN sed -i "s/;date.timezone =.*/date.timezone = PRC/" /etc/php/7.2/fpm/php.ini
 RUN sed -i "s/upload_max_filesize =.*/upload_max_filesize = 30M/" /etc/php/7.2/fpm/php.ini
 RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/fpm/php.ini
@@ -102,6 +104,6 @@ rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.3
 
 WORKDIR /www/web
 
-EXPOSE 80 9000
+EXPOSE 80
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
