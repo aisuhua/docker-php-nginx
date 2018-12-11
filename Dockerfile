@@ -2,15 +2,16 @@ FROM ubuntu:16.04
 
 USER root
 
-# Apt
+# https://github.com/phpdocker-io/phpdocker.io/issues/159
+ARG DEBIAN_FRONTEND=noninteractive
+ARG LC_ALL=C.UTF-8
+
 ADD conf/sources.list /etc/apt/sources.list
 
-# Timezone
 RUN apt-get update && apt-get install -y tzdata
 ENV tz Asia/Shanghai
 RUN cp /usr/share/zoneinfo/$tz /etc/localtime && echo $tz | tee /etc/timezone
 
-# Softwares
 RUN apt-get update
 RUN apt-get install -y \
 software-properties-common \
@@ -23,9 +24,9 @@ git \
 inetutils-ping \
 net-tools
 
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:nginx/stable
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/pkg-gearman
+RUN add-apt-repository -y ppa:ondrej/php
+RUN add-apt-repository -y ppa:nginx/stable
+RUN add-apt-repository -y ppa:ondrej/pkg-gearman
 RUN apt-get update
 
 RUN apt-get install -y \
@@ -52,7 +53,24 @@ php-memcache \
 php-memcached \
 php-redis \
 php-amqp \
+php-phalcon \
 php-xdebug \
 php-gearman
+
+RUN apt-get install -y libcurl4-gnutls-dev && \
+	pecl install yar && \
+	echo "extension=yar.so" >/etc/php/7.2/mods-available/yar.ini && \
+	phpenmod -v 7.2 yar
+
+RUN wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb && \
+dpkg -i couchbase-release-1.0-4-amd64.deb && \
+apt-get update && \
+apt-get install -y libcouchbase-dev zlib1g-dev && \
+rm couchbase-release-1.0-4-amd64.deb && \
+pecl install couchbase && \
+echo 'extension=couchbase.so\n; priority=30' > /etc/php/7.2/mods-available/couchbase.ini && \
+phpenmod -v 7.2 couchbase 
+
+
 
 CMD ["/bin/bash", "-c", "while true; do echo hello world; sleep 1; done"]
