@@ -21,7 +21,7 @@ docker images
 Basic usage.
 
 ```sh
-docker run -d --name suhua -p 80:80 php72
+docker run -d --name php72 -p 80:80 php72
 ```
 
 Bind to project dir `/www/web`. 
