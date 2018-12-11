@@ -1,10 +1,37 @@
-## Usage
+# PHP & Nginx Dockerfile
 
+This Dockerfile contain PHP72 and lastest Nginx version base on Ubuntu 16.04.
+
+## Build
+
+```sh
+git clone git@github.com:aisuhua/docker-php-nginx.git
+cd docker-php-nginx
+docker build -t php72 .
 ```
-docker build -t suhua .
-docker run -d --name suhua -p 80:80 suhua
-docker exec -i -t suhua /bin/bash
-docker rm -f suhua
+
+## Run a container
+
+```sh
+docker run -d --name suhua -p 80:80 php72
+```
+
+Binding the directory
+
+```sh
+docker run -d --name suhua -v /www/web:/www/web -p 80:80 suhua
+```
+
+Entering the container
+
+```sh
+docker exec -i -t php72 /bin/bash
+```
+
+You can clear the container
+
+```sh
+docker rm -f php72
 ```
 
 ## Links
