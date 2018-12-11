@@ -16,7 +16,7 @@ docker build -t php72 .
 docker run -d --name suhua -p 80:80 php72
 ```
 
-Binding the directory
+Binding a directory
 
 ```sh
 docker run -d --name suhua -v /www/web:/www/web -p 80:80 suhua
