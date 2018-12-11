@@ -57,9 +57,9 @@ php-xdebug \
 php-gearman
 
 RUN apt-get install -y libcurl4-gnutls-dev && \
-	pecl install yar && \
-	echo "extension=yar.so" >/etc/php/7.2/mods-available/yar.ini && \
-	phpenmod -v 7.2 yar
+pecl install yar && \
+echo "extension=yar.so" >/etc/php/7.2/mods-available/yar.ini && \
+phpenmod -v 7.2 yar
 
 RUN wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb && \
 dpkg -i couchbase-release-1.0-4-amd64.deb && \
@@ -70,31 +70,38 @@ pecl install couchbase && \
 echo 'extension=couchbase.so\n; priority=30' > /etc/php/7.2/mods-available/couchbase.ini && \
 phpenmod -v 7.2 couchbase 
 
-RUN add-apt-repository -y ppa:nginx/stable
-RUN apt-get update
-RUN apt-get install -y nginx
+RUN add-apt-repository -y ppa:nginx/stable && \
+apt-get update && \
+apt-get install -y nginx
 
-# Configure
+RUN apt-get install -y supervisor
+
 RUN mkdir -p /run/php
 RUN sed -i "s/listen = .*/listen = 127.0.0.1:9000/" /etc/php/7.2/fpm/pool.d/www.conf
 RUN sed -i "s/;date.timezone =.*/date.timezone = PRC/" /etc/php/7.2/fpm/php.ini
 RUN sed -i "s/upload_max_filesize =.*/upload_max_filesize = 30M/" /etc/php/7.2/fpm/php.ini
 RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/fpm/php.ini
-
 RUN sed -i "s/;date.timezone =.*/date.timezone = PRC/" /etc/php/7.2/cli/php.ini
 RUN sed -i "s/upload_max_filesize =.*/upload_max_filesize = 30M/" /etc/php/7.2/cli/php.ini
 RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/cli/php.ini
 
 ADD nginx /etc/nginx
 RUN rm /etc/nginx/sites-enabled/default
-
 RUN mkdir -p /www/web && touch /www/web/IDC_DEV
-
 RUN mkdir /www/web/foo
 RUN echo 'Hello, World!' > /www/web/foo/index.html
 RUN echo '<?php phpinfo();?>' > /www/web/foo/index.php
-
 RUN chown -R www-data:www-data /www
 
+ADD snippets/supervisord.conf /etc/supervisor/
 
-CMD ["/bin/bash", "-c", "while true; do echo hello world; sleep 1; done"]
+RUN apt-get clean && \
+apt-get autoclean && \
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.3
+
+WORKDIR /www/web
+
+EXPOSE 80 9000
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
