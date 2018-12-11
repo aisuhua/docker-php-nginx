@@ -9,7 +9,7 @@ This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 ```sh
 git clone git@github.com:aisuhua/docker-php-nginx.git
 cd docker-php-nginx
-docker build -t simple-php .
+docker build -t phpdev .
 ```
 
 After built the image，you can check it:
@@ -23,7 +23,7 @@ docker images
 Basic usage.
 
 ```sh
-docker run -d --name php72 -p 80:80 simple-php
+docker run -d --name php72 -p 80:80 phpdev
 ```
 
 Bind to project dir `/www/web`. 
