@@ -42,6 +42,11 @@ You can clear the container and start a new container again.
 docker rm -f php72
 ```
 
+Check the status of PHP and Nginx.
+
+- http://localhost/phpfpm_status
+- http://localhost/nginx_status
+
 ## Links
 
 - [docker-nginx-php](https://github.com/fideloper/docker-nginx-php)
