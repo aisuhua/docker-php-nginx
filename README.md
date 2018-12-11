@@ -10,6 +10,12 @@ cd docker-php-nginx
 docker build -t php72 .
 ```
 
+After built the image，you can check it:
+
+```sh
+docker images
+```
+
 ## Usage
 
 Basic usage.
