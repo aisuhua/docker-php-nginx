@@ -1,4 +1,4 @@
-# Simple PHP & Nginx Dockerfile
+# PHP Development Environment
 
 This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 
@@ -41,6 +41,11 @@ You can clear the container and start a new container again.
 ```sh
 docker rm -f php72
 ```
+
+Check the status of PHP and Nginx.
+
+- http://localhost/phpfpm_status
+- http://localhost/nginx_status
 
 ## Links
 
