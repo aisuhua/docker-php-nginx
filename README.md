@@ -16,19 +16,19 @@ docker build -t php72 .
 docker run -d --name suhua -p 80:80 php72
 ```
 
-Binding a directory
+Bind to project dir where is `/www/web` inside the docker.  
 
 ```sh
-docker run -d --name suhua -v /www/web:/www/web -p 80:80 suhua
+docker run -d --name php72 -v /www/web:/www/web -p 80:80 php72
 ```
 
-Entering the container
+Get into the container
 
 ```sh
 docker exec -i -t php72 /bin/bash
 ```
 
-You can clear the container
+You can clear the container and start a new container again.
 
 ```sh
 docker rm -f php72
