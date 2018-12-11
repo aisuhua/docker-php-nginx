@@ -12,6 +12,8 @@ docker build -t php72 .
 
 ## Usage
 
+Basic usage.
+
 ```sh
 docker run -d --name suhua -p 80:80 php72
 ```
