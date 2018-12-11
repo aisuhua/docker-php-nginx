@@ -6,7 +6,7 @@ USER root
 ARG DEBIAN_FRONTEND=noninteractive
 ARG LC_ALL=C.UTF-8
 
-ADD conf/sources.list /etc/apt/sources.list
+ADD snippets/sources.list /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y tzdata
 ENV tz Asia/Shanghai
@@ -25,7 +25,6 @@ inetutils-ping \
 net-tools
 
 RUN add-apt-repository -y ppa:ondrej/php
-RUN add-apt-repository -y ppa:nginx/stable
 RUN add-apt-repository -y ppa:ondrej/pkg-gearman
 RUN apt-get update
 
@@ -71,6 +70,31 @@ pecl install couchbase && \
 echo 'extension=couchbase.so\n; priority=30' > /etc/php/7.2/mods-available/couchbase.ini && \
 phpenmod -v 7.2 couchbase 
 
+RUN add-apt-repository -y ppa:nginx/stable
+RUN apt-get update
+RUN apt-get install -y nginx
+
+# Configure
+RUN mkdir -p /run/php
+RUN sed -i "s/listen = .*/listen = 127.0.0.1:9000/" /etc/php/7.2/fpm/pool.d/www.conf
+RUN sed -i "s/;date.timezone =.*/date.timezone = PRC/" /etc/php/7.2/fpm/php.ini
+RUN sed -i "s/upload_max_filesize =.*/upload_max_filesize = 30M/" /etc/php/7.2/fpm/php.ini
+RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/fpm/php.ini
+
+RUN sed -i "s/;date.timezone =.*/date.timezone = PRC/" /etc/php/7.2/cli/php.ini
+RUN sed -i "s/upload_max_filesize =.*/upload_max_filesize = 30M/" /etc/php/7.2/cli/php.ini
+RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/cli/php.ini
+
+ADD nginx /etc/nginx
+RUN rm /etc/nginx/sites-enabled/default
+
+RUN mkdir -p /www/web && touch /www/web/IDC_DEV
+
+RUN mkdir /www/web/foo
+RUN echo 'Hello, World!' > /www/web/foo/index.html
+RUN echo '<?php phpinfo();?>' > /www/web/foo/index.php
+
+RUN chown -R www-data:www-data /www
 
 
 CMD ["/bin/bash", "-c", "while true; do echo hello world; sleep 1; done"]
