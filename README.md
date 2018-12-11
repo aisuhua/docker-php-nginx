@@ -1,6 +1,6 @@
 # PHP & Nginx Dockerfile
 
-This Dockerfile contain PHP72 and lastest Nginx version base on Ubuntu 16.04.
+This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 
 ## Build Image
 
