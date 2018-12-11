@@ -1,4 +1,4 @@
-# PHP & Nginx Dockerfile
+# Simplest PHP and Nginx Dockerfile
 
 This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 
