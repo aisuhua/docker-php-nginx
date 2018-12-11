@@ -1,4 +1,4 @@
-# Simplest PHP & Nginx Dockerfile
+# Simple PHP & Nginx Dockerfile
 
 This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 
@@ -7,7 +7,7 @@ This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 ```sh
 git clone git@github.com:aisuhua/docker-php-nginx.git
 cd docker-php-nginx
-docker build -t php72 .
+docker build -t simple-php .
 ```
 
 After built the image，you can check it:
@@ -21,13 +21,13 @@ docker images
 Basic usage.
 
 ```sh
-docker run -d --name php72 -p 80:80 php72
+docker run -d --name php72 -p 80:80 simple-php
 ```
 
 Bind to project dir `/www/web`. 
 
 ```sh
-docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 php72
+docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 simple-php
 ```
 
 Get into the container
