@@ -76,6 +76,11 @@ apt-get install -y nginx
 
 RUN apt-get install -y supervisor
 
+RUN wget https://github.com/composer/composer/releases/download/1.8.0/composer.phar && \
+mv composer.phar /usr/local/bin/composer && \
+chmod 755 /usr/local/bin/composer && \
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
 RUN mkdir -p /run/php
 RUN sed -i "s/listen = .*/listen = 127.0.0.1:9000/" /etc/php/7.2/fpm/pool.d/www.conf
 RUN sed -i "s/;pm.status_path = .*/pm.status_path = \/phpfpm_status/" /etc/php/7.2/fpm/pool.d/www.conf
