@@ -1,10 +1,45 @@
+# Simple PHP & Nginx Dockerfile
+
+This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
+
+## Build
+
+```sh
+git clone git@github.com:aisuhua/docker-php-nginx.git
+cd docker-php-nginx
+docker build -t simple-php .
+```
+
+After built the image，you can check it:
+
+```sh
+docker images
+```
+
 ## Usage
 
+Basic usage.
+
+```sh
+docker run -d --name php72 -p 80:80 simple-php
 ```
-docker build -t suhua .
-docker run -d --name suhua -p 80:80 suhua
-docker exec -i -t suhua /bin/bash
-docker rm -f suhua
+
+Bind to project dir `/www/web`. 
+
+```sh
+docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 simple-php
+```
+
+Get into the container
+
+```sh
+docker exec -i -t php72 /bin/bash
+```
+
+You can clear the container and start a new container again.
+
+```sh
+docker rm -f php72
 ```
 
 ## Links
