@@ -19,7 +19,7 @@ docker run -d --name suhua -p 80:80 php72
 Bind to project dir `/www/web`. 
 
 ```sh
-docker run -d --name php72 -v /www/web:/www/web -p 80:80 php72
+docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 php72
 ```
 
 Get into the container
