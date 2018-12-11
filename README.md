@@ -2,6 +2,8 @@
 
 This Dockerfile contain PHP7.2 and lastest Nginx version base on Ubuntu16.04.
 
+**Notice:** It's just for test.
+
 ## Build
 
 ```sh
