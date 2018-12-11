@@ -2,7 +2,7 @@
 
 This Dockerfile contain PHP72 and lastest Nginx version base on Ubuntu 16.04.
 
-## Build
+## Build Image
 
 ```sh
 git clone git@github.com:aisuhua/docker-php-nginx.git
@@ -10,7 +10,7 @@ cd docker-php-nginx
 docker build -t php72 .
 ```
 
-## Run a container
+## Start Container
 
 ```sh
 docker run -d --name suhua -p 80:80 php72
