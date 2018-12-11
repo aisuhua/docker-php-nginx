@@ -29,7 +29,7 @@ docker run -d --name php72 -p 80:80 phpdev
 Bind to project dir `/www/web`. 
 
 ```sh
-docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 simple-php
+docker run -d --name php72 -v /path/to/project:/www/web -p 80:80 phpdev
 ```
 
 Get into the container
