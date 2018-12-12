@@ -94,17 +94,12 @@ RUN sed -i "s/post_max_size =.*/post_max_size = 30M/" /etc/php/7.2/cli/php.ini
 
 ADD nginx /etc/nginx
 RUN rm /etc/nginx/sites-enabled/default
-RUN mkdir -p /www/web && touch /www/web/IDC_DEV
-RUN mkdir /www/web/foo
-RUN echo 'Hello, World!' > /www/web/foo/index.html
-RUN echo '<?php phpinfo();?>' > /www/web/foo/index.php
-RUN chown -R www-data:www-data /www
+RUN mkdir -p /www/web && \
+chown -R www-data:www-data /www
 
 ADD snippets/supervisord.conf /etc/supervisor/
 
-RUN apt-get clean && \
-apt-get autoclean && \
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+RUN /tmp/* /var/tmp/* && \
 rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.3
 
 WORKDIR /www/web
