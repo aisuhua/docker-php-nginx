@@ -99,7 +99,7 @@ chown -R www-data:www-data /www
 
 ADD snippets/supervisord.conf /etc/supervisor/
 
-RUN /tmp/* /var/tmp/* && \
+RUN rm -rf /tmp/* /var/tmp/* && \
 rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.3
 
 WORKDIR /www/web
