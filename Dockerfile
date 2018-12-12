@@ -4,14 +4,19 @@ USER root
 
 # https://github.com/phpdocker-io/phpdocker.io/issues/159
 ARG DEBIAN_FRONTEND=noninteractive
-ARG LC_ALL=C.UTF-8
 
 ADD snippets/sources.list /etc/apt/sources.list
 
 RUN apt-get update
-RUN apt-get install -y tzdata
+RUN apt-get install -y tzdata locales
+
 ENV tz Asia/Shanghai
 RUN cp /usr/share/zoneinfo/$tz /etc/localtime && echo $tz | tee /etc/timezone
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 RUN apt-get install -y \
 software-properties-common \
