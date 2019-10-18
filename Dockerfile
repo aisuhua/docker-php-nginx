@@ -62,7 +62,7 @@ php-xdebug \
 php-gearman
 
 RUN apt-get install -y libcurl4-gnutls-dev && \
-pecl install yar && \
+pecl install http://pecl.php.net/get/yar-2.0.5.tgz && \
 echo "extension=yar.so" >/etc/php/7.2/mods-available/yar.ini && \
 phpenmod -v 7.2 yar
 
@@ -84,7 +84,7 @@ RUN apt-get install -y supervisor
 RUN wget https://github.com/composer/composer/releases/download/1.8.0/composer.phar && \
 mv composer.phar /usr/local/bin/composer && \
 chmod 755 /usr/local/bin/composer && \
-composer config -g repo.packagist composer https://packagist.phpcomposer.com
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
 RUN mkdir -p /run/php
 RUN sed -i "s/listen = .*/listen = 127.0.0.1:9000/" /etc/php/7.2/fpm/pool.d/www.conf
