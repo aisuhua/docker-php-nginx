@@ -55,14 +55,19 @@ php7.4-memcache \
 php7.4-memcached \
 php7.4-redis \
 php7.4-amqp \
-php-phalcon4 \
+php7.4-psr \
 php7.4-xdebug
+
+RUN pecl channel-update pecl.php.net && \
+pecl install https://pecl.php.net/get/phalcon-4.1.2.tgz && \
+echo "; priority=50" > /etc/php/7.4/mods-available/phalcon.ini && \
+echo "extension=phalcon.so" >> /etc/php/7.4/mods-available/phalcon.ini && \
+phpenmod -v 7.4 phalcon
 
 RUN apt-get install -y libcurl4-gnutls-dev && \
 pecl install http://pecl.php.net/get/yar-2.2.0.tgz && \
 echo "extension=yar.so" >/etc/php/7.4/mods-available/yar.ini && \
 phpenmod -v 7.4 yar
-
 
 RUN add-apt-repository -y ppa:nginx/stable && \
 apt-get update && \
@@ -70,7 +75,7 @@ apt-get install -y nginx
 
 RUN apt-get install -y supervisor
 
-RUN wget https://getcomposer.org/download/1.10.21/composer.phar && \
+RUN wget https://mirrors.aliyun.com/composer/composer.phar && \
 mv composer.phar /usr/local/bin/composer && \
 chmod 755 /usr/local/bin/composer && \
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
@@ -94,7 +99,7 @@ chown -R www-data:www-data /www
 COPY snippets/supervisord.conf /etc/supervisor/
 
 RUN rm -rf /tmp/* /var/tmp/* && \
-rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.2 /etc/php/7.3
+rm -rf /etc/php/5.6 /etc/php/7.0 /etc/php/7.1 /etc/php/7.2 /etc/php/7.3 /etc/php/8.0
 
 WORKDIR /www/web
 
